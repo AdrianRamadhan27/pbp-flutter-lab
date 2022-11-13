@@ -32,6 +32,9 @@ class BudgetDataPage extends StatelessWidget {
                   Text(
                       budgetList[index].tipe
                   ),
+                  Text(
+                      "Tanggal: " + budgetList[index].tanggal.toString().substring(0, 10)
+                  ),
                 ],
               ),
 

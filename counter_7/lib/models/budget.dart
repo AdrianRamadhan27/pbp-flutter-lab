@@ -2,13 +2,13 @@ class Budget {
   String judul;
   int nominal;
   String tipe;
-  // DateTime tanggal;
+  DateTime tanggal;
 
   Budget(
       this.judul,
       this.nominal,
       this.tipe,
-      // this.tanggal
+      this.tanggal
       );
 }
 

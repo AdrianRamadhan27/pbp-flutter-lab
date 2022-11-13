@@ -20,6 +20,7 @@ class _BudgetFormPageState extends State<BudgetFormPage> {
   int nominal = 0;
   String tipe = 'Pengeluaran';
   List<String> listTipeBudget = ['Pengeluaran', 'Pemasukan'];
+  DateTime tanggal = DateTime.now();
 
 
 
@@ -133,6 +134,34 @@ class _BudgetFormPageState extends State<BudgetFormPage> {
                     },
                   ),
                 ),
+                ListTile(
+                  leading: const Icon(Icons.date_range),
+                  title: Text(
+                    (tanggal == null)?"Mohon pilih tanggal":"Tanggal: " + tanggal.toString().substring(0, 10),
+                  ),
+                  trailing: ElevatedButton(
+                    child: const Text(
+                      "Pilih",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.blue),
+                    ),
+                    onPressed: () {
+                      showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2025),
+                      ).then((date) {
+                        setState(() {
+                          tanggal = date!;
+                        });
+                      }
+                      );
+                    },
+                  ),
+                ),
                 TextButton(
                   child: const Text(
                     "Simpan",
@@ -144,7 +173,7 @@ class _BudgetFormPageState extends State<BudgetFormPage> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       // widget.daftarBudget.add(Budget(_judul, nominal, tipe));
-                      budgetList.add(Budget(_judul, nominal, tipe));
+                      budgetList.add(Budget(_judul, nominal, tipe, tanggal));
                       showDialog(
                           context: context,
                           builder: (context) {
@@ -171,6 +200,7 @@ class _BudgetFormPageState extends State<BudgetFormPage> {
                     }
                   },
                 ),
+
               ],
             ),
           ),
