@@ -135,17 +135,93 @@ void _incrementCounter() {
  Navigator adalah widget yang mengelola sekumpulan widget turunan dengan disiplin tumpukan. Banyak aplikasi memiliki navigator di dekat bagian atas hierarki widget mereka untuk menampilkan riwayat logisnya menggunakan Hamparan dengan halaman yang terakhir dikunjungi secara visual di atas halaman lama. Menggunakan pola ini memungkinkan navigator bertransisi secara visual dari satu halaman ke halaman lain dengan memindahkan widget di sekitar overlay. Demikian pula, navigator dapat digunakan untuk menampilkan dialog dengan menempatkan widget dialog di atas halaman saat ini.
  
  ### 📝 How I did it
+ Berikut adalah tahapan pengerjaan yang kulakukan dalam tugas 8.
 - [x] Menambahkan drawer/hamburger menu pada app yang telah dibuat sebeumnya.
 
-Pada Widget appbar di dalam MyHomePage, kutambahkan sebuah widget `Drawer` pada property drawer.
+Pada Widget appbar di dalam MyHomePage, kutambahkan sebuah widget `Drawer` pada property drawer. Child nya adalaw sebuah `Column` untuk tombol navigasi yang akan dibuat.
 
 - [x] Menambahkan tiga tombol navigasi pada drawer/hamburger.
 
+Pada properti children dari columnya, kutambahkan array berisi 3 `ListTile` yang jika ditekan akan memanggil callback function `Navigator.pushReplacement` ke masing-masing  page. Caranya dengan mengisi parameter setelah context dengan sebuah MaterialPageRoute dengan properti builder berupa function yang mengembalikan class Widget/Page yang dimaksud.
+Contoh potongan kode:
+```Dart
+ListTile(
+  title: const Text('counter_7'),
+  onTap: () {
+    // Route menu ke halaman utama
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const MyHomePage()),
+    );
+  },
+),
+```
 - [x] Menambahkan halaman form
 
+Membuat sebuah folder di dalam folder lib bernama `models` dan didalamnya buat file sehingga ada directory `models/budget.dart`. Pada file ini aku buat class `Budget` yang memiliki atribut
+- `judul` bertipe String
+- `nominal` bertipe int
+- `tipe` bertipe String
+Object ini akan kubuat sebagai model data budget pada form. Di dalam file yang sama, aku juga buat sebuah `List` bertipe budget kosong untuk menyimpan data-data budget yang ditambahkan. Berikut isi  `models/budget.dart`.
+
+```Dart
+class Budget {
+  String judul;
+  int nominal;
+  String tipe;
+
+  Budget(
+      this.judul,
+      this.nominal,
+      this.tipe,
+      );
+}
+
+List<Budget> budgetList = <Budget>[];
+```
+Setelah itu, aku buat sebuah file baru di folder lib bernama `budget_form_page.dart`. Di dalamnya aku buat sebuah class `BudgetFormPage` yang merupakan subclass dari `StatefulWidget`. Pada state yang dikembalikan ketika function `createState()` dipanggil, aku definisikan beberapa state yang merupakan atribut yang akan disimpan form untuk dijadikan sebuah data `Budget`. 
+Berikut adalah state yang kubuat
+```Dart
+class _BudgetFormPageState extends State<BudgetFormPage> {
+  final _formKey = GlobalKey<FormState>();
+  String _judul = "";
+  int nominal = 0;
+  String tipe = 'Pengeluaran';
+  List<String> listTipeBudget = ['Pengeluaran', 'Pemasukan'];
+
+```
+Setelah itu, aku buat widget `Form` yang berisi sebuah column beberapa ListTile. Di tiap ListTile kubuat sebuah input mulai dari TextFormField untuk judul dan nominal, DropDownButton untuk tombol pemilihan tipe budget, dan TextButton untuk tombol simpan. Pada bagian onChanged, onSaved aku panggil setState() untuk mengubah nilai state yang telah kudefinisikan. Pada properti onPressed tombol simpan, aku tambahkan objek Budget baru ke dalam list dengan atribut dari state yang sudah dimasukkan.  
 
 - [x] Menambahkan halaman data budget
 
+Aku buat sebuah file baru di folder lib bernama `budget_data_page.dart`. Di dalamnya aku buat sebuah class `BudgetDataPage` yang merupakan subclass dari `StatelessWidget`. Di dalam scaffold nya aku buat sebuah `ListView` menggunakan method `ListView.builder` yang akan melakukan build objek ListTile berdasarkan elemen-elemen di List Budget. Berikut potongan kodenya.
+```Dart
+body:  ListView.builder(
+ itemCount: budgetList.length,
+ itemBuilder: (context, index) {
+   return ListTile(
+     title: Text(
+         budgetList[index].judul
+     ),
+     subtitle: Row(
+       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+       children: [
+         Text(
+             budgetList[index].nominal.toString()
+         ),
+         Text(
+             budgetList[index].tipe
+         ),
+         Text(
+             "Tanggal: " + budgetList[index].tanggal.toString().substring(0, 10)
+         ),
+       ],
+     ),
+
+   );
+ }
+),
+```
 
 ## Final words
 Semangat mengerjakan dan menilai 
