@@ -1,8 +1,11 @@
-# counter_7
+# ASSIGNMENT FLUTTER PBP
+Raden Mohamad Adrian Ramadhan Hendar Wibawa
 
-Assignment 7 Flutter project.
+## Daftar Isi
+- [Tugas 7](#tugas-7)
+- [Tugas 8](#tugas-8)
 
-## Getting Started
+## Tugas 7
 
  ### 🔧 Stateful vs Stateless Widget
  Pada Flutter, tiap elemen yang menyusun tampilan aplikasi disebut dengan widget. Selain adanya widget, pada suatu aplikasi flutter terdapat sebuah **state**. State adalah informasi yang terbaca synchronously pada saat widget dibuat dan dapat berubah saat pemakaian widget. Bedrdasarkan sifat statenya, widget pada flutter terbagi menjadi dua yaitu:
@@ -106,5 +109,43 @@ void _incrementCounter() {
   }
 ```
 
-### Final words
+## Tugas 8
+ ### 📍 Navigator.push vs Navigator.pushReplacement
+ Ketika kita memanggil `Navigator.push()` kita akan menambahkan route baru di puncak stack dan ketika kita lakukan `Navigator.pop()` kita akan kembali ke route/halaman sebelumnya.
+ 
+ Sedangkan ketika kita memanggil `Navigator.pushReplacement()`, route yang berada di puncak stack akan dihapus dan digantikan dengan route baru. Setelah itu, ketika kita lakukan `Navigator.pop()` kita akan kembali ke route/halaman sebelum route yang dihapus.
+ 
+ ### 🛠 Widgets I Used 
+ Widgets yang kugunakan dalam tugas ini adalah
+ - `Drawer` - Tombol pada appbar yang bila ditekan akan memunculkan daftar menu.
+ - `TextFormField` - Widget yang menerima input teks masukan dari User.
+ - `DropdownButton` - Widget yang memunculkan beberapa opsi kebawah ketika ditekan.
+ - `TextButton` - Widget yang memanggil suatu function ketika ditekan.
+ - `ListTile` - Sebuah widget yang memiliki atribut leading, title, subtitle, dan trailing yang membentuk sebuah kartu.
+ - `ListView` - Sebuah widget yang hanya bisa dibuild dengan salah satu dari beberapa method untuk membuat loop widget berdasarkan sebuah iterable.
+ 
+ ### 🎊 Flutter Events
+ Terdapat beberapa event di Flutter yang berfungsi dalam interaktivitas dari aplikasi berikut adalah yang saya gunakan pada project ini:
+ - `onPressed` - Akan memanggil properti function yang digunakan ketika widget ditekan. Biasanya ada pada widget jenis Button
+ - `onChanged` - Akan memanggil properti function yang digunakan ketika isi value dari widget diubah. Biasanya ada pada widget jenis input/form.
+ - `onSaved` - Akan memanggil properti function yang digunakan ketika form disimpan. Biasanya ada pada widget jenis input/form.
+
+ Selain itu ada juga `onTap`, `onDoubleTap`, `onLongPress` dan masih banyak lagi yang bisa diimplementasikan dengan widget `GestureDetector`.
+ ### 🧭 How Navigator Works in Flutter
+ Navigator adalah widget yang mengelola sekumpulan widget turunan dengan disiplin tumpukan. Banyak aplikasi memiliki navigator di dekat bagian atas hierarki widget mereka untuk menampilkan riwayat logisnya menggunakan Hamparan dengan halaman yang terakhir dikunjungi secara visual di atas halaman lama. Menggunakan pola ini memungkinkan navigator bertransisi secara visual dari satu halaman ke halaman lain dengan memindahkan widget di sekitar overlay. Demikian pula, navigator dapat digunakan untuk menampilkan dialog dengan menempatkan widget dialog di atas halaman saat ini.
+ 
+ ### 📝 How I did it
+- [x] Menambahkan drawer/hamburger menu pada app yang telah dibuat sebeumnya.
+
+Pada Widget appbar di dalam MyHomePage, kutambahkan sebuah widget `Drawer` pada property drawer.
+
+- [x] Menambahkan tiga tombol navigasi pada drawer/hamburger.
+
+- [x] Menambahkan halaman form
+
+
+- [x] Menambahkan halaman data budget
+
+
+## Final words
 Semangat mengerjakan dan menilai 
