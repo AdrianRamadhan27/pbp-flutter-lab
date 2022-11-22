@@ -4,6 +4,7 @@ Raden Mohamad Adrian Ramadhan Hendar Wibawa
 ## Daftar Isi
 - [Tugas 7](#tugas-7)
 - [Tugas 8](#tugas-8)
+- [Tugas 9](#tugas-9)
 
 ## Tugas 7
 
@@ -222,6 +223,59 @@ body:  ListView.builder(
  }
 ),
 ```
+
+## Tugas 9
+
+### 📥 Retrieving JSON data without a model 
+ Apakah bisa kita melakukan pengambilan data JSON tanpa membuat model terlebih dahulu? Jika iya, apakah hal tersebut lebih baik daripada membuat model sebelum melakukan pengambilan data JSON?
+ 
+ Kita tentu saja bisa melakuan pengambilan data JSON untuk ditampilkan pada aplikasi flutter, karena hasil decode JSON yang masih mentah (belum diubah ke bentuk model) bisa diakses sesuka kita layaknya sebuah model dengan menganggap objek JSON tersebut sebagai suatu dictionary.
+ 
+ Menurut saya, membuat model baru lebih baik karena memudahkan kita ketika melakukan query data, yakni CRUD(Create, Read, Update, Delete). Selain itu, menggunakan model membuat kesalahan pada compile time bisa terdeteksi karena kita sudah mendefinisikan batasan/*constraint* pada model.
+ 
+ ### 🛠 Widgets I Used 
+ Berikut adalah segenap widgets yang aku gunakan pada project ini.
+ - `FutureBuilder` - Widget ini akan membangun widget yang dikembalikan pada builder berdasarkan objek `Future` yang diterima. Selengkapnya dapat dipelajari pada Asynchronous Programming pada Dart.
+ - `BoxDecoration` - Widget ini dapat digunakan dalam property `decoration` pada widget lain seperti `Container`. Dengan widget ini kita bisa membuat sebuah kotak/*box* yang mengelilingi widget didalam container.
+ - `Border` - Widget ini adalah salah satu widget yang bisa ditambahkan pada property `BoxDecoration`, dengan widget ini kita bisa mengatur garis batasan yang ada pada box.
+ - `BoxShadow` - Widget ini adalah salah satu widget yang bisa ditambahkan pada property `BoxDecoration`, dengan widget ini kita bisa mengatur efek bayangan yang ada pada box.
+ - `GestureDetector` - Dengan widget ini, kita bisa menentukan event apa saja dan function yang merespon pada widget child nya. 
+ - `ChechkBox` - Jika widget ini ditekan, akan mengubah nilai boolean dari `True` -> `False` atau dari `False` -> `True`
+
+### 📦 Retrieving JSON Data in Flutter
+Pada flutter, data diambil dengan pertama-tama melakukan parsing dari url json sumber. Setelah itu, dengan library `http` akan diambil respon HTTP yang diberikan oleh url, dengan memanfaatkan keyword `await` agar terjalan secara asinkronus dan dinamis. Kemudian, menggunakan function bawaan `dart:convert` yaitu jsonDecode, tubuh/*body* dari respon HTTP tersebut akan di parsing sebagai objek JSON yang merupakan data bertipe dictionary. Data ini akan kita simpan sebagai objek `Future`
+Setelah sudah mendapatkan data JSON baik dalam bentuk model ataupun mentah, kita bisa tampilkan pada widget aplikasi kita dengan memanfaatkan widget `FutureBuilder`. Pada bagian builder, akan dilakukan pengecekan apakah data berhasil diperoleh atau jika data kosong. Baru setelah tervalidasi ada data kita return widget sesuka kita yang bisa menggunakan data dari JSON.
+
+ ### 📝 How I did it
+ - [x] Menambahkan tombol navigasi pada drawer/hamburger untuk ke halaman mywatchlist.
+Pada widget `MyDrawer` yang sebelumnya sudah kulakukan *refactor* ke file terpisah ku tambahkan `ListTile` yang berjudul "My Watchlist". Berikut potongan kode pada method build dari `MyDrawer`.
+```Dart
+ return Drawer(
+      child: Column(
+        children: [
+          ...
+          ListTile(
+            title: const Text('Watch List'),
+            onTap: () {
+              // Route menu ke halaman form
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const WatchlistPage()),
+              );
+            },
+          ),
+        ]
+```
+ - [x] Membuat satu file dart yang berisi model mywatchlist.
+Pertama-tama, aku salin JSON yang berasal dari endpoint JSON ku pada Tugas 3, yakni https://pbp-assignment-2106750540.herokuapp.com/mywatchlist/json. Kemudian, aku masukkan ke [QuickType](https://app.quicktype.io) untuk di konversi secara otomatis ke sebuah model.
+ - [x] Menambahkan halaman mywatchlist yang berisi semua watch list yang ada pada endpoint JSON di Django yang telah kamu deploy ke Heroku sebelumnya (Tugas 3). Pada bagian ini, kamu cukup menampilkan judul dari setiap mywatchlist yang ada.
+ Aku membuat file dalam folder `pages/` yakni `watchlist_
+
+ - [x] Membuat navigasi dari setiap judul watch list ke halaman detail
+
+ - [x] Menambahkan halaman detail untuk setiap mywatchlist yang ada pada daftar tersebut. Halaman ini menampilkan judul, release date, rating, review, dan status (sudah ditonton/belum).
+
+ - [x] Menambahkan tombol untuk kembali ke daftar mywatchlist
 
 ## Final words
 Semangat mengerjakan dan menilai 
