@@ -267,15 +267,110 @@ Pada widget `MyDrawer` yang sebelumnya sudah kulakukan *refactor* ke file terpis
         ]
 ```
  - [x] Membuat satu file dart yang berisi model mywatchlist.
-Pertama-tama, aku salin JSON yang berasal dari endpoint JSON ku pada Tugas 3, yakni https://pbp-assignment-2106750540.herokuapp.com/mywatchlist/json. Kemudian, aku masukkan ke [QuickType](https://app.quicktype.io) untuk di konversi secara otomatis ke sebuah model.
- - [x] Menambahkan halaman mywatchlist yang berisi semua watch list yang ada pada endpoint JSON di Django yang telah kamu deploy ke Heroku sebelumnya (Tugas 3). Pada bagian ini, kamu cukup menampilkan judul dari setiap mywatchlist yang ada.
- Aku membuat file dalam folder `pages/` yakni `watchlist_
 
+Pertama-tama, aku salin JSON yang berasal dari endpoint JSON ku pada Tugas 3, yakni https://pbp-assignment-2106750540.herokuapp.com/mywatchlist/json. Kemudian, aku masukkan ke [QuickType](https://app.quicktype.io) untuk di konversi secara otomatis ke sebuah model. Berikut hasilnya
+```Dart
+class MyWatchlist {
+  MyWatchlist({
+    required this.model,
+    required this.pk,
+    required this.fields,
+  });
+
+  String model;
+  int pk;
+  Fields fields;
+
+  factory MyWatchlist.fromJson(Map<String, dynamic> json) => MyWatchlist(
+    model: json["model"],
+    pk: json["pk"],
+    fields: Fields.fromJson(json["fields"]),
+  );
+  ...
+```
+ - [x] Menambahkan halaman mywatchlist yang berisi semua watch list yang ada pada endpoint JSON di Django yang telah kamu deploy ke Heroku sebelumnya (Tugas 3). Pada bagian ini, kamu cukup menampilkan judul dari setiap mywatchlist yang ada.
+
+ Aku membuat file dalam folder `pages/` yakni `watchlist_page.html`.  Di dalamnya aku buat suatu StatefulWidget yakni `WatchlistPage` yang pada method build nya akan memanggil sebuah `FutureBuilder`. Aku juga buat suatu function yang akan mengambil data dari url Tugas 3 dan akan mengembalikan list berupa objek `MyWatchlist`. Function tersebut akan dipanggil pada method `initState` dan di assign ke variable yang nantinya akan jadi value dari property future pada Builder. Untuk Tiap snapshot data akan kutampilkan judul film dengan `snapshot.data!.fields.title`. 
+```Dart
+void initState() {
+    // TODO: implement initState
+    super.initState();
+    futureMyWatchlist = fetchMyWatchlist();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('My Watchlist'),
+      ),
+      drawer: const MyDrawer(),
+      body:  FutureBuilder(
+          future: futureMyWatchlist,
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.data == null) {
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              for (int i = 0; i < snapshot.data!.length; i++) {
+                statusList.add(snapshot.data![i].fields.watched);
+              }
+              if (!snapshot.hasData) {
+              ...
+```
  - [x] Membuat navigasi dari setiap judul watch list ke halaman detail
 
+Pada widget `Text` yang mengandung judul film, akan ku wrap dengan widget `GestureDetector` yang pada property `onTap` nya akan kulakukan routing ke halaman `WatchlistDetailPage`
+```Dart
+GestureDetector(
+  child: Text(
+    "${snapshot.data![index].fields.title}",
+    style: const TextStyle(
+      fontSize: 18.0,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) =>
+          WatchlistDetailPage(
+            watchlistData: snapshot.data![index],
+            watched: statusList[index]
+          )
+      ),
+    );
+  },
+
+),
+```
  - [x] Menambahkan halaman detail untuk setiap mywatchlist yang ada pada daftar tersebut. Halaman ini menampilkan judul, release date, rating, review, dan status (sudah ditonton/belum).
 
+Aku buat file `/pages/watchlist_detail_page` yang didalamnya merupakan stateless widget. Objek dari `WatchlistDetailPage` akan memiliki atribut data yang berupa objek `MyWatchlist`. Atribut-atribut tersebut akan kutampilkan pada method build.
+```Dart
+class WatchlistDetailPage extends StatelessWidget {
+  final MyWatchlist watchlistData;
+  final bool watched;
+
+  const WatchlistDetailPage({
+    super.key,
+    required this.watchlistData,
+    required this.watched
+  });
+  ...
+```
  - [x] Menambahkan tombol untuk kembali ke daftar mywatchlist
+
+Di paling bawah dari `WatchlistDetailPage` aku tambahkan button yang akan melakukan routing ke halaman sebelumnya. 
+```Dart
+TextButton(
+ onPressed: () {
+   Navigator.pop(context);
+ },
+ child: Text(
+   "Back"
+ )
+),
+```
 
 ## Final words
 Semangat mengerjakan dan menilai 
